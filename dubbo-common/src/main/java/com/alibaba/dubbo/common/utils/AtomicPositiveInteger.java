@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,26 +19,26 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * AtomicPositiveInteger
- * 
+ *
  * @author william.liangf
  * @author ding.lid
  */
 public class AtomicPositiveInteger extends Number {
-    
+
     private static final long serialVersionUID = -3038533876489105940L;
-    
+
     private final AtomicInteger i;
-    
+
     public AtomicPositiveInteger() {
         i = new AtomicInteger();
     }
-    
+
     public AtomicPositiveInteger(int initialValue) {
         i = new AtomicInteger(initialValue);
     }
 
     public final int getAndIncrement() {
-        for (;;) {
+        for (; ; ) {
             int current = i.get();
             int next = (current >= Integer.MAX_VALUE ? 0 : current + 1);
             if (i.compareAndSet(current, next)) {
@@ -48,7 +48,7 @@ public class AtomicPositiveInteger extends Number {
     }
 
     public final int getAndDecrement() {
-        for (;;) {
+        for (; ; ) {
             int current = i.get();
             int next = (current <= 0 ? Integer.MAX_VALUE : current - 1);
             if (i.compareAndSet(current, next)) {
@@ -58,7 +58,7 @@ public class AtomicPositiveInteger extends Number {
     }
 
     public final int incrementAndGet() {
-        for (;;) {
+        for (; ; ) {
             int current = i.get();
             int next = (current >= Integer.MAX_VALUE ? 0 : current + 1);
             if (i.compareAndSet(current, next)) {
@@ -68,7 +68,7 @@ public class AtomicPositiveInteger extends Number {
     }
 
     public final int decrementAndGet() {
-        for (;;) {
+        for (; ; ) {
             int current = i.get();
             int next = (current <= 0 ? Integer.MAX_VALUE : current - 1);
             if (i.compareAndSet(current, next)) {
@@ -99,7 +99,7 @@ public class AtomicPositiveInteger extends Number {
         if (delta < 0) {
             throw new IllegalArgumentException("delta " + delta + " < 0");
         }
-        for (;;) {
+        for (; ; ) {
             int current = i.get();
             int next = (current >= Integer.MAX_VALUE - delta + 1 ? delta - 1 : current + delta);
             if (i.compareAndSet(current, next)) {
@@ -112,7 +112,7 @@ public class AtomicPositiveInteger extends Number {
         if (delta < 0) {
             throw new IllegalArgumentException("delta " + delta + " < 0");
         }
-        for (;;) {
+        for (; ; ) {
             int current = i.get();
             int next = (current >= Integer.MAX_VALUE - delta + 1 ? delta - 1 : current + delta);
             if (i.compareAndSet(current, next)) {
