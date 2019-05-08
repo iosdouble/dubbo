@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2012 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,12 +42,12 @@ import com.alibaba.dubbo.rpc.protocol.AbstractProxyProtocol;
 
 /**
  * HttpProtocol
- * 
+ *
  * @author william.liangf
  */
 public class HttpProtocol extends AbstractProxyProtocol {
 
-    public static final int              DEFAULT_PORT = 80;
+    public static final int DEFAULT_PORT = 80;
 
     private final Map<String, HttpServer> serverMap = new ConcurrentHashMap<String, HttpServer>();
 
@@ -55,7 +55,7 @@ public class HttpProtocol extends AbstractProxyProtocol {
 
     //HTTP协议绑定
     private HttpBinder httpBinder;
-    
+
     public HttpProtocol() {
         super(RemoteAccessException.class);
     }
@@ -69,7 +69,7 @@ public class HttpProtocol extends AbstractProxyProtocol {
     }
 
     private class InternalHandler implements HttpHandler {
-        
+
         public void handle(HttpServletRequest request, HttpServletResponse response)
                 throws IOException, ServletException {
             /**
@@ -77,7 +77,7 @@ public class HttpProtocol extends AbstractProxyProtocol {
              */
             String uri = request.getRequestURI();
             HttpInvokerServiceExporter skeleton = skeletonMap.get(uri);
-            if (! request.getMethod().equalsIgnoreCase("POST")) {
+            if (!request.getMethod().equalsIgnoreCase("POST")) {
                 response.setStatus(500);
             } else {
                 //设置远程路由的远程地址和远程端口
@@ -89,7 +89,7 @@ public class HttpProtocol extends AbstractProxyProtocol {
                 }
             }
         }
-        
+
     }
 
     //实际执行暴露的方法
@@ -127,27 +127,27 @@ public class HttpProtocol extends AbstractProxyProtocol {
         //获取客户端Key
         String client = url.getParameter(Constants.CLIENT_KEY);
         if (client == null || client.length() == 0 || "simple".equals(client)) {
-        	SimpleHttpInvokerRequestExecutor httpInvokerRequestExecutor = new SimpleHttpInvokerRequestExecutor() {
+            SimpleHttpInvokerRequestExecutor httpInvokerRequestExecutor = new SimpleHttpInvokerRequestExecutor() {
                 /**
                  * 开启连接准备
                  * @param con
                  * @param contentLength
                  * @throws IOException
                  */
-				protected void prepareConnection(HttpURLConnection con,
-						int contentLength) throws IOException {
-					super.prepareConnection(con, contentLength);
-					con.setReadTimeout(url.getParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT));
-					con.setConnectTimeout(url.getParameter(Constants.CONNECT_TIMEOUT_KEY, Constants.DEFAULT_CONNECT_TIMEOUT));
-				}
-        	};
-        	httpProxyFactoryBean.setHttpInvokerRequestExecutor(httpInvokerRequestExecutor);
+                protected void prepareConnection(HttpURLConnection con,
+                                                 int contentLength) throws IOException {
+                    super.prepareConnection(con, contentLength);
+                    con.setReadTimeout(url.getParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT));
+                    con.setConnectTimeout(url.getParameter(Constants.CONNECT_TIMEOUT_KEY, Constants.DEFAULT_CONNECT_TIMEOUT));
+                }
+            };
+            httpProxyFactoryBean.setHttpInvokerRequestExecutor(httpInvokerRequestExecutor);
         } else if ("commons".equals(client)) {
-        	CommonsHttpInvokerRequestExecutor httpInvokerRequestExecutor = new CommonsHttpInvokerRequestExecutor();
-        	httpInvokerRequestExecutor.setReadTimeout(url.getParameter(Constants.CONNECT_TIMEOUT_KEY, Constants.DEFAULT_CONNECT_TIMEOUT));
-        	httpProxyFactoryBean.setHttpInvokerRequestExecutor(httpInvokerRequestExecutor);
+            CommonsHttpInvokerRequestExecutor httpInvokerRequestExecutor = new CommonsHttpInvokerRequestExecutor();
+            httpInvokerRequestExecutor.setReadTimeout(url.getParameter(Constants.CONNECT_TIMEOUT_KEY, Constants.DEFAULT_CONNECT_TIMEOUT));
+            httpProxyFactoryBean.setHttpInvokerRequestExecutor(httpInvokerRequestExecutor);
         } else if (client != null && client.length() > 0) {
-        	throw new IllegalStateException("Unsupported http protocol client " + client + ", only supported: simple, commons");
+            throw new IllegalStateException("Unsupported http protocol client " + client + ", only supported: simple, commons");
         }
         httpProxyFactoryBean.afterPropertiesSet();
         return (T) httpProxyFactoryBean.getObject();

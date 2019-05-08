@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,7 +41,7 @@ import com.caucho.hessian.server.HessianSkeleton;
 
 /**
  * http rpc support.
- * 
+ *
  * @author qianlei
  */
 public class HessianProtocol extends AbstractProxyProtocol {
@@ -51,7 +51,7 @@ public class HessianProtocol extends AbstractProxyProtocol {
     private final Map<String, HessianSkeleton> skeletonMap = new ConcurrentHashMap<String, HessianSkeleton>();
 
     private HttpBinder httpBinder;
-    
+
     public HessianProtocol() {
         super(HessianException.class);
     }
@@ -65,12 +65,12 @@ public class HessianProtocol extends AbstractProxyProtocol {
     }
 
     private class HessianHandler implements HttpHandler {
-        
+
         public void handle(HttpServletRequest request, HttpServletResponse response)
                 throws IOException, ServletException {
             String uri = request.getRequestURI();
             HessianSkeleton skeleton = skeletonMap.get(uri);
-            if (! request.getMethod().equalsIgnoreCase("POST")) {
+            if (!request.getMethod().equalsIgnoreCase("POST")) {
                 response.setStatus(500);
             } else {
                 RpcContext.getContext().setRemoteAddress(request.getRemoteAddr(), request.getRemotePort());
@@ -81,7 +81,7 @@ public class HessianProtocol extends AbstractProxyProtocol {
                 }
             }
         }
-        
+
     }
 
     protected <T> Runnable doExport(T impl, Class<T> type, URL url) throws RpcException {
@@ -107,7 +107,7 @@ public class HessianProtocol extends AbstractProxyProtocol {
         String client = url.getParameter(Constants.CLIENT_KEY, Constants.DEFAULT_HTTP_CLIENT);
         if ("httpclient".equals(client)) {
             hessianProxyFactory.setConnectionFactory(new HttpClientConnectionFactory());
-        } else if (client != null && client.length() > 0 && ! Constants.DEFAULT_HTTP_CLIENT.equals(client)) {
+        } else if (client != null && client.length() > 0 && !Constants.DEFAULT_HTTP_CLIENT.equals(client)) {
             throw new IllegalStateException("Unsupported http protocol client=\"" + client + "\"!");
         }
         int timeout = url.getParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT);
