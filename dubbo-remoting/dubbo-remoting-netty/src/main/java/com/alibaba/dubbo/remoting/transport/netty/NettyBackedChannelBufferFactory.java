@@ -20,19 +20,19 @@ public class NettyBackedChannelBufferFactory implements ChannelBufferFactory {
         return INSTANCE;
     }
 
-    
+
     public ChannelBuffer getBuffer(int capacity) {
         return new NettyBackedChannelBuffer(ChannelBuffers.dynamicBuffer(capacity));
     }
 
-    
+
     public ChannelBuffer getBuffer(byte[] array, int offset, int length) {
         org.jboss.netty.buffer.ChannelBuffer buffer = ChannelBuffers.dynamicBuffer(length);
         buffer.writeBytes(array, offset, length);
         return new NettyBackedChannelBuffer(buffer);
     }
 
-    
+
     public ChannelBuffer getBuffer(ByteBuffer nioBuffer) {
         return new NettyBackedChannelBuffer(ChannelBuffers.wrappedBuffer(nioBuffer));
     }

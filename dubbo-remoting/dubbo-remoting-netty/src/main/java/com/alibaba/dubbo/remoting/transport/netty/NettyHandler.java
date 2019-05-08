@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,25 +33,25 @@ import com.alibaba.dubbo.remoting.ChannelHandler;
 
 /**
  * NettyHandler
- * 
+ *
  * @author william.liangf
  */
 
 /**
  * 这里是真正的数据逻辑处理类
- *
+ * <p>
  * 对于对于数据的处理逻辑基本上都是在这个类中实现的
  */
 @Sharable
 public class NettyHandler extends SimpleChannelHandler {
 
     private final Map<String, Channel> channels = new ConcurrentHashMap<String, Channel>(); // <ip:port, channel>
-    
+
     private final URL url;
-    
+
     private final ChannelHandler handler;
-    
-    public NettyHandler(URL url, ChannelHandler handler){
+
+    public NettyHandler(URL url, ChannelHandler handler) {
         if (url == null) {
             throw new IllegalArgumentException("url == null");
         }
@@ -64,6 +64,7 @@ public class NettyHandler extends SimpleChannelHandler {
 
     /**
      * 获取到对应的Channel的注册表
+     *
      * @return
      */
     public Map<String, Channel> getChannels() {
@@ -102,6 +103,7 @@ public class NettyHandler extends SimpleChannelHandler {
 
     /**
      * Netty接收信息的操作
+     *
      * @param ctx
      * @param e
      * @throws Exception
@@ -118,6 +120,7 @@ public class NettyHandler extends SimpleChannelHandler {
 
     /**
      * 发送请求数据
+     *
      * @param ctx
      * @param e
      * @throws Exception
@@ -135,6 +138,7 @@ public class NettyHandler extends SimpleChannelHandler {
 
     /**
      * Netty异常处理
+     *
      * @param ctx
      * @param e
      * @throws Exception

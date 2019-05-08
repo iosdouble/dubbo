@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,28 +45,29 @@ import com.alibaba.dubbo.remoting.transport.dispatcher.ChannelHandlers;
 
 /**
  * NettyServer
- * 
+ *
  * @author qian.lei
  * @author chao.liuc
  */
 public class NettyServer extends AbstractServer implements Server {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
 
     //存放Channel的Map，存储的格式是 <ip:port, channel>
-    private Map<String, Channel>  channels; // <ip:port, channel>
+    private Map<String, Channel> channels; // <ip:port, channel>
 
-    private ServerBootstrap                 bootstrap;
+    private ServerBootstrap bootstrap;
 
     private org.jboss.netty.channel.Channel channel;
 
     /**
      * 构造函数
-     * @param url  资源的标识
+     *
+     * @param url     资源的标识
      * @param handler 处理的Handler
      * @throws RemotingException
      */
-    public NettyServer(URL url, ChannelHandler handler) throws RemotingException{
+    public NettyServer(URL url, ChannelHandler handler) throws RemotingException {
         super(url, ChannelHandlers.wrap(handler, ExecutorUtil.setThreadName(url, SERVER_THREAD_POOL_NAME)));
     }
 
@@ -98,7 +99,7 @@ public class NettyServer extends AbstractServer implements Server {
          */
         bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
             public ChannelPipeline getPipeline() {
-                NettyCodecAdapter adapter = new NettyCodecAdapter(getCodec() ,getUrl(), NettyServer.this);
+                NettyCodecAdapter adapter = new NettyCodecAdapter(getCodec(), getUrl(), NettyServer.this);
                 ChannelPipeline pipeline = Channels.pipeline();
                 /*int idleTimeout = getIdleTimeout();
                 if (idleTimeout > 10000) {
@@ -141,7 +142,7 @@ public class NettyServer extends AbstractServer implements Server {
             logger.warn(e.getMessage(), e);
         }
         try {
-            if (bootstrap != null) { 
+            if (bootstrap != null) {
                 // release external resource.
                 bootstrap.releaseExternalResources();
             }
@@ -156,7 +157,7 @@ public class NettyServer extends AbstractServer implements Server {
             logger.warn(e.getMessage(), e);
         }
     }
-    
+
     public Collection<Channel> getChannels() {
         Collection<Channel> chs = new HashSet<Channel>();
         for (Channel channel : this.channels.values()) {
