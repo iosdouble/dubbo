@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,18 +29,18 @@ import com.alibaba.fastjson.JSON;
 
 /**
  * JsonObjectInput
- * 
+ *
  * @author william.liangf
  */
 public class FastJsonObjectInput implements ObjectInput {
 
     private final BufferedReader reader;
 
-    public FastJsonObjectInput(InputStream in){
+    public FastJsonObjectInput(InputStream in) {
         this(new InputStreamReader(in));
     }
 
-    public FastJsonObjectInput(Reader reader){
+    public FastJsonObjectInput(Reader reader) {
         this.reader = new BufferedReader(reader);
     }
 
@@ -54,7 +54,7 @@ public class FastJsonObjectInput implements ObjectInput {
 
     public byte readByte() throws IOException {
         try {
-            return readObject( byte.class);
+            return readObject(byte.class);
         } catch (ClassNotFoundException e) {
             throw new IOException(e.getMessage());
         }
@@ -123,15 +123,14 @@ public class FastJsonObjectInput implements ObjectInput {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T readObject(Class<T> cls, Type type) throws IOException,ClassNotFoundException
-    {
+    public <T> T readObject(Class<T> cls, Type type) throws IOException, ClassNotFoundException {
         Object value = readObject(cls);
         return (T) PojoUtils.realize(value, cls, type);
     }
 
     private String readLine() throws IOException, EOFException {
         String line = reader.readLine();
-        if(line == null || line.trim().length() == 0) throw new EOFException();
+        if (line == null || line.trim().length() == 0) throw new EOFException();
         return line;
     }
 
