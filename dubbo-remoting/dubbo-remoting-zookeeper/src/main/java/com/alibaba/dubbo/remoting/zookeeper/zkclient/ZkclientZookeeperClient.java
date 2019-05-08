@@ -13,19 +13,24 @@ import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.remoting.zookeeper.ChildListener;
 import com.alibaba.dubbo.remoting.zookeeper.StateListener;
 import com.alibaba.dubbo.remoting.zookeeper.support.AbstractZookeeperClient;
-
+//使用原生客户端连接ZK的方式
 public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildListener> {
 
 	private final ZkClient client;
 
+	//保持同步连接
 	private volatile KeeperState state = KeeperState.SyncConnected;
 
 	public ZkclientZookeeperClient(URL url) {
 		super(url);
+		//创建zk客户端连接
 		client = new ZkClient(url.getBackupAddress());
+		//添加注册状态改变时间
 		client.subscribeStateChanges(new IZkStateListener() {
 			public void handleStateChanged(KeeperState state) throws Exception {
+				//zk客户端状态
 				ZkclientZookeeperClient.this.state = state;
+				//连接状态变化
 				if (state == KeeperState.Disconnected) {
 					stateChanged(StateListener.DISCONNECTED);
 				} else if (state == KeeperState.SyncConnected) {
@@ -37,14 +42,14 @@ public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildLis
 			}
 		});
 	}
-
+	//创建持久化连接
 	public void createPersistent(String path) {
 		try {
 			client.createPersistent(path, true);
 		} catch (ZkNodeExistsException e) {
 		}
 	}
-
+	//创建短连接
 	public void createEphemeral(String path) {
 		try {
 			client.createEphemeral(path);
@@ -58,7 +63,7 @@ public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildLis
 		} catch (ZkNoNodeException e) {
 		}
 	}
-
+	//子节点创建
 	public List<String> getChildren(String path) {
 		try {
 			return client.getChildren(path);
@@ -84,6 +89,7 @@ public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildLis
 		};
 	}
 
+	//添加监听标识
 	public List<String> addTargetChildListener(String path, final IZkChildListener listener) {
 		return client.subscribeChildChanges(path, listener);
 	}

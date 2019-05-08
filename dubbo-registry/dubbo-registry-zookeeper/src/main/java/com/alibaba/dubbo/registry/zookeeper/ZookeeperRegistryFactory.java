@@ -26,7 +26,8 @@ import com.alibaba.dubbo.remoting.zookeeper.ZookeeperTransporter;
  * @author william.liangf
  */
 public class ZookeeperRegistryFactory extends AbstractRegistryFactory {
-	
+
+	//使用ZK作为服务注册中心，使用的传输对象
 	private ZookeeperTransporter zookeeperTransporter;
 
     public void setZookeeperTransporter(ZookeeperTransporter zookeeperTransporter) {

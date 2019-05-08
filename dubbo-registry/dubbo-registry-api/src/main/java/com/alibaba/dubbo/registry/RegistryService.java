@@ -21,7 +21,7 @@ import com.alibaba.dubbo.common.URL;
 
 /**
  * RegistryService. (SPI, Prototype, ThreadSafe)
- * 注册服务
+ * 注册服务，服务注册也作为一个服务在注册中心进行注册
  * @see com.alibaba.dubbo.registry.Registry
  * @see com.alibaba.dubbo.registry.RegistryFactory#getRegistry(URL)
  * @author william.liangf

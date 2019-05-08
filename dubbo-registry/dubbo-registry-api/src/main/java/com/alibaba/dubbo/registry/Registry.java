@@ -20,7 +20,7 @@ import com.alibaba.dubbo.common.URL;
 
 /**
  * Registry. (SPI, Prototype, ThreadSafe)
- * 
+ * 服务注册接口
  * @see com.alibaba.dubbo.registry.RegistryFactory#getRegistry(URL)
  * @see com.alibaba.dubbo.registry.support.AbstractRegistry
  * @author william.liangf

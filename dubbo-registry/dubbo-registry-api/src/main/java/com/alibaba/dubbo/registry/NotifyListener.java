@@ -28,6 +28,7 @@ import com.alibaba.dubbo.common.URL;
 
 /**
  * 架构图中的第三步内容当服务变化之后进行通知
+ * 当服务提供者状态发生变化的时候及时通知服务消费方
  */
 public interface NotifyListener {
 

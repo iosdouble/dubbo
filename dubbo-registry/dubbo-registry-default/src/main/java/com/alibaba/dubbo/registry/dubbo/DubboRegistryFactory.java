@@ -36,7 +36,7 @@ import com.alibaba.dubbo.rpc.cluster.Cluster;
 
 /**
  * DubboRegistryFactory
- * 
+ * Dubbo注册工厂类
  * @author william.liangf
  */
 public class DubboRegistryFactory extends AbstractRegistryFactory {
@@ -47,12 +47,14 @@ public class DubboRegistryFactory extends AbstractRegistryFactory {
         this.protocol = protocol;
     }
 
+    //代理工厂
     private ProxyFactory proxyFactory;
 
     public void setProxyFactory(ProxyFactory proxyFactory) {
         this.proxyFactory = proxyFactory;
     }
 
+    //集群
     private Cluster cluster;
 
     public void setCluster(Cluster cluster) {

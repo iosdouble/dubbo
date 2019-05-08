@@ -21,7 +21,7 @@ import com.alibaba.dubbo.common.extension.SPI;
 
 /**
  * RegistryFactory. (SPI, Singleton, ThreadSafe)
- * 
+ * 注册服务工厂类 是可以被扩展的
  * @see com.alibaba.dubbo.registry.support.AbstractRegistryFactory
  * @author william.liangf
  */
