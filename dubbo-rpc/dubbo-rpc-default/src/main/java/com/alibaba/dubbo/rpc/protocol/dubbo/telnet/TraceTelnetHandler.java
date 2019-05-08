@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,7 @@ import com.alibaba.dubbo.rpc.protocol.dubbo.filter.TraceFilter;
 
 /**
  * TraceTelnetHandler
- * 
+ *
  * @author william.liangf
  */
 @Activate
@@ -57,7 +57,7 @@ public class TraceTelnetHandler implements TelnetHandler {
         } else {
             times = parts.length > 2 ? parts[2] : "1";
         }
-        if (! StringUtils.isInteger(times)) {
+        if (!StringUtils.isInteger(times)) {
             return "Illegal times " + times + ", must be integer.";
         }
         Invoker<?> invoker = null;
@@ -78,7 +78,7 @@ public class TraceTelnetHandler implements TelnetHandler {
                         break;
                     }
                 }
-                if (! found) {
+                if (!found) {
                     return "No such method " + method + " in class " + invoker.getInterface().getName();
                 }
             }

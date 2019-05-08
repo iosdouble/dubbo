@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,7 @@ import com.alibaba.dubbo.common.store.DataStore;
 
 /**
  * ThreadPoolStatusChecker
- * 
+ *
  * @author william.liangf
  */
 @Activate
@@ -40,7 +40,7 @@ public class ThreadPoolStatusChecker implements StatusChecker {
 
         StringBuilder msg = new StringBuilder();
         Status.Level level = Status.Level.OK;
-        for(Map.Entry<String, Object> entry : executors.entrySet()) {
+        for (Map.Entry<String, Object> entry : executors.entrySet()) {
             String port = entry.getKey();
             ExecutorService executor = (ExecutorService) entry.getValue();
 
@@ -48,12 +48,12 @@ public class ThreadPoolStatusChecker implements StatusChecker {
                 ThreadPoolExecutor tp = (ThreadPoolExecutor) executor;
                 boolean ok = tp.getActiveCount() < tp.getMaximumPoolSize() - 1;
                 Status.Level lvl = Status.Level.OK;
-                if(!ok) {
+                if (!ok) {
                     level = Status.Level.WARN;
                     lvl = Status.Level.WARN;
                 }
 
-                if(msg.length() > 0) {
+                if (msg.length() > 0) {
                     msg.append(";");
                 }
                 msg.append("Pool status:" + lvl
