@@ -46,14 +46,18 @@ public class DataSourceStatusChecker implements StatusChecker {
         //获取到Provider的上下文
         ApplicationContext context = ServiceBean.getSpringContext();
         if (context == null) {
+            //如果上下文内容为空，设置状态为未知状态
             return new Status(Status.Level.UNKNOWN);
         }
+        //获取到数据源列表  DataSource 对象所表示的物理数据源的连接
         Map<String, DataSource> dataSources = context.getBeansOfType(DataSource.class, false, false);
         if (dataSources == null || dataSources.size() == 0) {
             return new Status(Status.Level.UNKNOWN);
         }
+        //如果上下文和数据源都获取到则状态为成功状态
         Status.Level level = Status.Level.OK;
         StringBuilder buf = new StringBuilder();
+        //获取到数据源实体
         for (Map.Entry<String, DataSource> entry : dataSources.entrySet()) {
             DataSource dataSource = entry.getValue();
             if (buf.length() > 0) {
@@ -61,8 +65,10 @@ public class DataSourceStatusChecker implements StatusChecker {
             }
             buf.append(entry.getKey());
             try {
+                //获取数据连接
                 Connection connection = dataSource.getConnection();
                 try {
+                    //获取数据库元数据
                     DatabaseMetaData metaData = connection.getMetaData();
                     ResultSet resultSet = metaData.getTypeInfo();
                     try {
