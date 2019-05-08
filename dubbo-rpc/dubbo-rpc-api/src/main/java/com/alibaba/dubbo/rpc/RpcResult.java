@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,28 +21,28 @@ import java.util.Map;
 
 /**
  * RPC Result.
- * 
- * @serial Don't change the class name and properties.
+ *
  * @author qianlei
+ * @serial Don't change the class name and properties.
  */
 public class RpcResult implements Result, Serializable {
 
-    private static final long        serialVersionUID = -6925924956850004727L;
+    private static final long serialVersionUID = -6925924956850004727L;
 
-    private Object                   result;
+    private Object result;
 
-    private Throwable                exception;
+    private Throwable exception;
 
-    private Map<String, String>      attachments = new HashMap<String, String>();
+    private Map<String, String> attachments = new HashMap<String, String>();
 
-    public RpcResult(){
+    public RpcResult() {
     }
 
-    public RpcResult(Object result){
+    public RpcResult(Object result) {
         this.result = result;
     }
 
-    public RpcResult(Throwable exception){
+    public RpcResult(Throwable exception) {
         this.exception = exception;
     }
 
@@ -54,8 +54,8 @@ public class RpcResult implements Result, Serializable {
     }
 
     /**
-     * @deprecated Replace to getValue()
      * @see com.alibaba.dubbo.rpc.RpcResult#getValue()
+     * @deprecated Replace to getValue()
      */
     @Deprecated
     public Object getResult() {
@@ -63,8 +63,8 @@ public class RpcResult implements Result, Serializable {
     }
 
     /**
-     * @deprecated Replace to setValue()
      * @see com.alibaba.dubbo.rpc.RpcResult#setValue()
+     * @deprecated Replace to setValue()
      */
     @Deprecated
     public void setResult(Object result) {
