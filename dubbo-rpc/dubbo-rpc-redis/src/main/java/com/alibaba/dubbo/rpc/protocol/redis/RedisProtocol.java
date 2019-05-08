@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2012 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,7 +47,7 @@ import com.alibaba.dubbo.rpc.protocol.AbstractProtocol;
 
 /**
  * RedisProtocol
- * 
+ *
  * @author william.liangf
  */
 public class RedisProtocol extends AbstractProtocol {
@@ -64,6 +64,7 @@ public class RedisProtocol extends AbstractProtocol {
 
     /**
      * 获取序列化
+     *
      * @param url
      * @return
      */
@@ -73,8 +74,9 @@ public class RedisProtocol extends AbstractProtocol {
 
     /**
      * 执行委托操作
+     *
      * @param type 服务的类型
-     * @param url 远程服务的URL地址
+     * @param url  远程服务的URL地址
      * @param <T>
      * @return
      * @throws RpcException
@@ -101,8 +103,8 @@ public class RedisProtocol extends AbstractProtocol {
                 config.timeBetweenEvictionRunsMillis = url.getParameter("time.between.eviction.runs.millis", 0);
             if (url.getParameter("min.evictable.idle.time.millis", 0) > 0)
                 config.minEvictableIdleTimeMillis = url.getParameter("min.evictable.idle.time.millis", 0);
-            final JedisPool jedisPool = new JedisPool(config, url.getHost(), url.getPort(DEFAULT_PORT), 
-                url.getParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT));
+            final JedisPool jedisPool = new JedisPool(config, url.getHost(), url.getPort(DEFAULT_PORT),
+                    url.getParameter(Constants.TIMEOUT_KEY, Constants.DEFAULT_TIMEOUT));
 
 
             final int expiry = url.getParameter("expiry", 0);
@@ -149,8 +151,7 @@ public class RedisProtocol extends AbstractProtocol {
                         } else {
                             throw new UnsupportedOperationException("Unsupported method " + invocation.getMethodName() + " in redis service.");
                         }
-                    }
-                    catch (Throwable t) {
+                    } catch (Throwable t) {
                         RpcException re = new RpcException("Failed to invoke memecached service method. interface: " + type.getName() + ", method: " + invocation.getMethodName() + ", url: " + url + ", cause: " + t.getMessage(), t);
                         if (t instanceof TimeoutException || t instanceof SocketTimeoutException) {
                             re.setCode(RpcException.TIMEOUT_EXCEPTION);
@@ -160,13 +161,11 @@ public class RedisProtocol extends AbstractProtocol {
                             re.setCode(RpcException.SERIALIZATION_EXCEPTION);
                         }
                         throw re;
-                    }
-                    finally {
-                        if(resource != null) {
+                    } finally {
+                        if (resource != null) {
                             try {
                                 jedisPool.returnResource(resource);
-                            }
-                            catch (Throwable t) {
+                            } catch (Throwable t) {
                                 logger.warn("returnResource error: " + t.getMessage(), t);
                             }
                         }
