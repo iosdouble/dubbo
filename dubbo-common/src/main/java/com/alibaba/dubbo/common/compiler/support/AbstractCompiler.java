@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,15 +23,15 @@ import com.alibaba.dubbo.common.utils.ClassHelper;
 
 /**
  * Abstract compiler. (SPI, Prototype, ThreadSafe)
- * 
+ *
  * @author william.liangf
  */
 public abstract class AbstractCompiler implements Compiler {
-    
+
     private static final Pattern PACKAGE_PATTERN = Pattern.compile("package\\s+([$_a-zA-Z][$_a-zA-Z0-9\\.]*);");
-    
+
     private static final Pattern CLASS_PATTERN = Pattern.compile("class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s+");
-    
+
     public Class<?> compile(String code, ClassLoader classLoader) {
         code = code.trim();
         Matcher matcher = PACKAGE_PATTERN.matcher(code);
@@ -52,7 +52,7 @@ public abstract class AbstractCompiler implements Compiler {
         try {
             return Class.forName(className, true, ClassHelper.getCallerClassLoader(getClass()));
         } catch (ClassNotFoundException e) {
-            if (! code.endsWith("}")) {
+            if (!code.endsWith("}")) {
                 throw new IllegalStateException("The java code not endsWith \"}\", code: \n" + code + "\n");
             }
             try {
@@ -64,7 +64,7 @@ public abstract class AbstractCompiler implements Compiler {
             }
         }
     }
-    
+
     protected abstract Class<?> doCompile(String name, String source) throws Throwable;
 
 }

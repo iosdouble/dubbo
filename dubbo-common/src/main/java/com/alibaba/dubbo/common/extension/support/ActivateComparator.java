@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2012 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,11 +23,11 @@ import com.alibaba.dubbo.common.extension.SPI;
 
 /**
  * OrderComparetor
- * 
+ *
  * @author william.liangf
  */
 public class ActivateComparator implements Comparator<Object> {
-    
+
     public static final Comparator<Object> COMPARATOR = new ActivateComparator();
 
     public int compare(Object o1, Object o2) {
@@ -45,8 +45,8 @@ public class ActivateComparator implements Comparator<Object> {
         }
         Activate a1 = o1.getClass().getAnnotation(Activate.class);
         Activate a2 = o2.getClass().getAnnotation(Activate.class);
-        if ((a1.before().length > 0 || a1.after().length > 0  
-                || a2.before().length > 0 || a2.after().length > 0) 
+        if ((a1.before().length > 0 || a1.after().length > 0
+                || a2.before().length > 0 || a2.after().length > 0)
                 && o1.getClass().getInterfaces().length > 0
                 && o1.getClass().getInterfaces()[0].isAnnotationPresent(SPI.class)) {
             ExtensionLoader<?> extensionLoader = ExtensionLoader.getExtensionLoader(o1.getClass().getInterfaces()[0]);
