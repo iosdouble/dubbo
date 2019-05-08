@@ -29,13 +29,15 @@ import com.alibaba.dubbo.rpc.RpcException;
 
 /**
  * AbstractProxyProtocol
- *  抽象代协议代理
+ * 抽象代协议代理
+ *
  * @author william.liangf
  */
 public abstract class AbstractProxyProtocol extends AbstractProtocol {
 
     //CopyOnWriteArrayList支持多线程读写操作
-    private final List<Class<?>> rpcExceptions = new CopyOnWriteArrayList<Class<?>>();;
+    private final List<Class<?>> rpcExceptions = new CopyOnWriteArrayList<Class<?>>();
+    ;
 
     //代理工厂
     private ProxyFactory proxyFactory;
@@ -62,14 +64,14 @@ public abstract class AbstractProxyProtocol extends AbstractProtocol {
     }
 
     @SuppressWarnings("unchecked")
-	public <T> Exporter<T> export(final Invoker<T> invoker) throws RpcException {
+    public <T> Exporter<T> export(final Invoker<T> invoker) throws RpcException {
         //获取URI对应的serviceKey值
         final String uri = serviceKey(invoker.getUrl());
         //根据uri获取对应的exporter(接出者)
         Exporter<T> exporter = (Exporter<T>) exporterMap.get(uri);
         //如果对应的的接出协议存在在直接返回，实现接口支持幂等调用。
         if (exporter != null) {
-        	return exporter;
+            return exporter;
         }
         //执行方法暴露服务
         final Runnable runnable = doExport(proxyFactory.getProxy(invoker), invoker.getInterface(), invoker.getUrl());
@@ -135,10 +137,11 @@ public abstract class AbstractProxyProtocol extends AbstractProtocol {
 
     /**
      * 留给子类实现的真正将类发布到URL的抽象方法定义，根据具体的协议来实现
+     *
      * @param impl 泛型接口
      * @param type 泛型类型
      * @param url
-     * @param <T> 泛型
+     * @param <T>  泛型
      * @return
      * @throws RpcException
      */
@@ -146,6 +149,7 @@ public abstract class AbstractProxyProtocol extends AbstractProtocol {
 
     /**
      * 留给子类实现的远程服务的抽象方法定义，该方法是将URL和type接口类应用到一个可以远程调用代理对象
+     *
      * @param type
      * @param url
      * @param <T>

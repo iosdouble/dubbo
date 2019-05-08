@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,18 +33,18 @@ import com.alibaba.dubbo.rpc.support.ProtocolUtils;
 
 /**
  * abstract ProtocolSupport.
- * 
+ *
  * @author qian.lei
  * @author william.liangf
  */
 public abstract class AbstractProtocol implements Protocol {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	//定义暴露服务的对象
-	protected final Map<String, Exporter<?>> exporterMap = new ConcurrentHashMap<String, Exporter<?>>();
+    //定义暴露服务的对象
+    protected final Map<String, Exporter<?>> exporterMap = new ConcurrentHashMap<String, Exporter<?>>();
 
-	//TODO SOFEREFENCE
+    //TODO SOFEREFENCE
     //服务执行者
     protected final Set<Invoker<?>> invokers = new ConcurrentHashSet<Invoker<?>>();
 
@@ -52,29 +52,32 @@ public abstract class AbstractProtocol implements Protocol {
 
     /**
      * 根据URL生成一个服务的Key
+     *
      * @param url
      * @return
      */
-	protected static String serviceKey(URL url) {
-	    return ProtocolUtils.serviceKey(url);
-	}
+    protected static String serviceKey(URL url) {
+        return ProtocolUtils.serviceKey(url);
+    }
 
     /**
      * 根据 端口，服务名称 ，服务版本，服务组实现一个Key
+     *
      * @param port
      * @param serviceName
      * @param serviceVersion
      * @param serviceGroup
      * @return
      */
-	protected static String serviceKey(int port, String serviceName, String serviceVersion, String serviceGroup) {
-		return ProtocolUtils.serviceKey(port, serviceName, serviceVersion, serviceGroup);
-	}
-	//取消提供服务
-	public void destroy() {
-	    for (Invoker<?> invoker : invokers){
-	        if (invoker != null) {
-	            invokers.remove(invoker);
+    protected static String serviceKey(int port, String serviceName, String serviceVersion, String serviceGroup) {
+        return ProtocolUtils.serviceKey(port, serviceName, serviceVersion, serviceGroup);
+    }
+
+    //取消提供服务
+    public void destroy() {
+        for (Invoker<?> invoker : invokers) {
+            if (invoker != null) {
+                invokers.remove(invoker);
                 try {
                     if (logger.isInfoEnabled()) {
                         logger.info("Destroy reference: " + invoker.getUrl());
@@ -84,8 +87,8 @@ public abstract class AbstractProtocol implements Protocol {
                     logger.warn(t.getMessage(), t);
                 }
             }
-	    }
-	    for (String key : new ArrayList<String>(exporterMap.keySet())) {
+        }
+        for (String key : new ArrayList<String>(exporterMap.keySet())) {
             Exporter<?> exporter = exporterMap.remove(key);
             if (exporter != null) {
                 try {
@@ -98,8 +101,9 @@ public abstract class AbstractProtocol implements Protocol {
                 }
             }
         }
-	}
-	@SuppressWarnings("deprecation")
+    }
+
+    @SuppressWarnings("deprecation")
     /**
      * 获取到服务关闭超时时间
      */
@@ -107,20 +111,20 @@ public abstract class AbstractProtocol implements Protocol {
         int timeout = Constants.DEFAULT_SERVER_SHUTDOWN_TIMEOUT;
         String value = ConfigUtils.getProperty(Constants.SHUTDOWN_WAIT_KEY);
         if (value != null && value.length() > 0) {
-            try{
+            try {
                 timeout = Integer.parseInt(value);
-            }catch (Exception e) {
-            }        
+            } catch (Exception e) {
+            }
         } else {
             value = ConfigUtils.getProperty(Constants.SHUTDOWN_WAIT_SECONDS_KEY);
             if (value != null && value.length() > 0) {
-                try{
+                try {
                     timeout = Integer.parseInt(value) * 1000;
-                }catch (Exception e) {
-                }        
+                } catch (Exception e) {
+                }
             }
         }
-        
+
         return timeout;
     }
 }

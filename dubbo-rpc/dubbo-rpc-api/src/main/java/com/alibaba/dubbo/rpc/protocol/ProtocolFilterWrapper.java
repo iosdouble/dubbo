@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ public class ProtocolFilterWrapper implements Protocol {
 
     private final Protocol protocol;
 
-    public ProtocolFilterWrapper(Protocol protocol){
+    public ProtocolFilterWrapper(Protocol protocol) {
         if (protocol == null) {
             throw new IllegalArgumentException("protocol == null");
         }
@@ -53,6 +53,7 @@ public class ProtocolFilterWrapper implements Protocol {
 
     /**
      * 暴露服务
+     *
      * @param invoker 服务的执行体
      * @param <T>
      * @return
@@ -67,8 +68,9 @@ public class ProtocolFilterWrapper implements Protocol {
 
     /**
      * 委托
+     *
      * @param type 服务的类型
-     * @param url 远程服务的URL地址
+     * @param url  远程服务的URL地址
      * @param <T>
      * @return
      * @throws RpcException
@@ -91,7 +93,7 @@ public class ProtocolFilterWrapper implements Protocol {
 
         if (filters.size() > 0) {
             //循环过滤器列表组装称为过滤器链，目标invoker是最后一个执行的。
-            for (int i = filters.size() - 1; i >= 0; i --) {
+            for (int i = filters.size() - 1; i >= 0; i--) {
                 final Filter filter = filters.get(i);
                 final Invoker<T> next = last;
                 last = new Invoker<T>() {
@@ -125,5 +127,5 @@ public class ProtocolFilterWrapper implements Protocol {
         }
         return last;
     }
-    
+
 }

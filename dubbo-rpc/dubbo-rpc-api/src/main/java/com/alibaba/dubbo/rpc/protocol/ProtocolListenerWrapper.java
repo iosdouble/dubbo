@@ -1,12 +1,12 @@
 /*
  * Copyright 1999-2011 Alibaba Group.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,19 +32,20 @@ import com.alibaba.dubbo.rpc.listener.ListenerInvokerWrapper;
 /**
  * ListenerProtocol
  * 协议监听封装类
- *
+ * <p>
  * ExporterListener是远程服务发布监听器，可以监听服务发布和取消发布两个事件点；
- *
+ * <p>
  * InvokerListener是服务消费者引用调用器的监听器，可以监听引用和销毁两个事件方法
- *
+ * <p>
  * 支持可扩展的事件监听模型   例如适配器InvokerListenerAdapter、ExporterListenerAdapter以及简单的过期服务调用监听器DeprecatedInvokerListener
+ *
  * @author william.liangf
  */
 public class ProtocolListenerWrapper implements Protocol {
 
     private final Protocol protocol;
 
-    public ProtocolListenerWrapper(Protocol protocol){
+    public ProtocolListenerWrapper(Protocol protocol) {
         if (protocol == null) {
             throw new IllegalArgumentException("protocol == null");
         }
@@ -58,6 +59,7 @@ public class ProtocolListenerWrapper implements Protocol {
 
     /**
      * 暴露服务
+     *
      * @param invoker 服务的执行体
      * @param <T>
      * @return
@@ -81,10 +83,10 @@ public class ProtocolListenerWrapper implements Protocol {
         if (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) {
             return protocol.refer(type, url);
         }
-        return new ListenerInvokerWrapper<T>(protocol.refer(type, url), 
+        return new ListenerInvokerWrapper<T>(protocol.refer(type, url),
                 Collections.unmodifiableList(
                         ExtensionLoader.getExtensionLoader(InvokerListener.class)
-                        .getActivateExtension(url, Constants.INVOKER_LISTENER_KEY)));
+                                .getActivateExtension(url, Constants.INVOKER_LISTENER_KEY)));
     }
 
     public void destroy() {
