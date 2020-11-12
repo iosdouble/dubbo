@@ -63,34 +63,44 @@ public class ExtensionLoader<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(ExtensionLoader.class);
 
+    // 默认服务目录
     private static final String SERVICES_DIRECTORY = "META-INF/services/";
 
+    // 默认 Dubbo 目录
     private static final String DUBBO_DIRECTORY = "META-INF/dubbo/";
 
     private static final String DUBBO_INTERNAL_DIRECTORY = DUBBO_DIRECTORY + "internal/";
-
+    // 名称支持的正则表达式
     private static final Pattern NAME_SEPARATOR = Pattern.compile("\\s*[,]+\\s*");
 
+    // 扩展加载器
     private static final ConcurrentMap<Class<?>, ExtensionLoader<?>> EXTENSION_LOADERS = new ConcurrentHashMap<Class<?>, ExtensionLoader<?>>();
 
+    // 扩展实例列表
     private static final ConcurrentMap<Class<?>, Object> EXTENSION_INSTANCES = new ConcurrentHashMap<Class<?>, Object>();
 
     // ==============================
 
     private final Class<?> type;
 
+    // 扩展工厂
     private final ExtensionFactory objectFactory;
 
+    // 缓存
     private final ConcurrentMap<Class<?>, String> cachedNames = new ConcurrentHashMap<Class<?>, String>();
 
+    // 缓存类
     private final Holder<Map<String, Class<?>>> cachedClasses = new Holder<Map<String, Class<?>>>();
 
+    // 缓存 Activate
     private final Map<String, Activate> cachedActivates = new ConcurrentHashMap<String, Activate>();
 
     private volatile Class<?> cachedAdaptiveClass = null;
 
+    // 缓存实例
     private final ConcurrentMap<String, Holder<Object>> cachedInstances = new ConcurrentHashMap<String, Holder<Object>>();
 
+    // 默认缓存名称
     private String cachedDefaultName;
 
     private final Holder<Object> cachedAdaptiveInstance = new Holder<Object>();
